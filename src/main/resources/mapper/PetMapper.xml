@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nf.lc.dao.PetMapper">
+  <resultMap id="BaseResultMap" type="com.nf.lc.entity.Pet">
+    <id column="pet_id" jdbcType="INTEGER" property="petId" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="pet_name" jdbcType="VARCHAR" property="petName" />
+    <result column="pet_photo_urls" jdbcType="VARCHAR" property="petPhotoUrls" />
+    <result column="tag_id" jdbcType="INTEGER" property="tagId" />
+    <result column="pet_status" jdbcType="VARCHAR" property="petStatus" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pet
+    where pet_id = #{petId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nf.lc.entity.Pet">
+    insert into pet (pet_id, category_id, pet_name, 
+      pet_photo_urls, tag_id, pet_status
+      )
+    values (#{petId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{petName,jdbcType=VARCHAR}, 
+      #{petPhotoUrls,jdbcType=VARCHAR}, #{tagId,jdbcType=INTEGER}, #{petStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Pet">
+    update pet
+    set category_id = #{categoryId,jdbcType=INTEGER},
+      pet_name = #{petName,jdbcType=VARCHAR},
+      pet_photo_urls = #{petPhotoUrls,jdbcType=VARCHAR},
+      tag_id = #{tagId,jdbcType=INTEGER},
+      pet_status = #{petStatus,jdbcType=VARCHAR}
+    where pet_id = #{petId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select pet_id, category_id, pet_name, pet_photo_urls, tag_id, pet_status
+    from pet
+    where pet_id = #{petId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select pet_id, category_id, pet_name, pet_photo_urls, tag_id, pet_status
+    from pet
+  </select>
+    <select id="getPetStatus" resultType="com.nf.lc.entity.Pet">
+       select pet_id, category_id, pet_name, pet_photo_urls, tag_id, pet_status
+       from pet where pet_status = #{pet_status};
+    </select>
+</mapper>
