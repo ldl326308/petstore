@@ -141,6 +141,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- 验证 -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.13.Final</version>
+        </dependency>
+
         <!-- json -->
         <dependency>
             <groupId>com.google.code.gson</groupId>

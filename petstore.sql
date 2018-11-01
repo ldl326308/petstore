@@ -28,7 +28,7 @@ create table if not exists `user`
 );
 
 	insert into `user`(user_name,user_first_name,user_last_name,user_email,user_password,user_phone,user_status) 
-		values('ldx','刘','大仙','3269983308@qq.com','ldxpassword','13728270987',0);
+		values('ldx','刘','小明','32699308@qq.com','lxpassword','13728270987',0);
 		
 		select * from `user`;
 

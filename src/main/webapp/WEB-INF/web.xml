@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-  <display-name>员工</display-name>
+  <display-name>宠物商店</display-name>
 
   <!-- 乱码解决 -->
   <filter>

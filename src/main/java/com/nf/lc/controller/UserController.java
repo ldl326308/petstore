@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.Path;
+import java.util.List;
+
 
 @Controller
 public class UserController {
@@ -31,6 +32,14 @@ public class UserController {
      * 批量添加用户  createWithArray
      *
      */
+    @RequestMapping(value = "/user/createWithArray" , method = RequestMethod.POST)
+    @ResponseBody
+    public String createBatch(@RequestBody List<User> list){
+        for (User user : list) {
+            userMapper.insert(user);
+        }
+        return "{\"msg\":\"ok\"}";
+    }
 
 
     /**

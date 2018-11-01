@@ -1,12 +1,20 @@
 package com.nf.lc.entity;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
 public class Pet {
+
+    @Min(1)
     private Integer petId;
 
+    @Min(1)
     private Integer categoryId;
 
+    @NotBlank
     private String petName;
 
+    @NotBlank
     private String petPhotoUrls;
 
     private Integer tagId;

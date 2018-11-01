@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -63,11 +64,11 @@ public class PetController {
     /**
      * 使用表单数据更新到宠物商店中的方法
      * @param petId 宠物id post 请求
-     * @param pet 宠物要
+     * @param pet 要修改的宠物
      */
     @RequestMapping(value = "/pet/{petId}" ,method = RequestMethod.POST)
     @ResponseBody
-    public String updatePetByForm(@PathVariable("petId") int petId ,@RequestBody Pet pet){
+    public String updatePetByForm(@PathVariable("petId") int petId ,Pet pet){
        Pet newPet = new Pet();
        newPet.setPetName(pet.getPetName());
        newPet.setCategoryId(pet.getCategoryId());
@@ -101,9 +102,9 @@ public class PetController {
     @RequestMapping(value = "/pet/{petId}/uploadImage",method = RequestMethod.POST)
     @ResponseBody
     public String uploadPetImage(@PathVariable("petId") int petId,String petImgSrc){
-        Pet pet = petMapper.selectByPrimaryKey(petId);
+        Pet pet = petMapper.selectByPrimaryKey(petId);  //获得对象
         pet.setPetPhotoUrls(petImgSrc);
-        if(petMapper.updateByPrimaryKey(pet)>0){
+        if(petMapper.updateByPrimaryKey(pet)>0){  //数据库修改
             return "{\"msg\":\"ok\"}";
         }
         return "{\"msg\":\"no\"}";

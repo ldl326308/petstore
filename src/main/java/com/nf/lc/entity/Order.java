@@ -1,18 +1,27 @@
 package com.nf.lc.entity;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class Order {
+    @Min(value = 1)
     private Integer orderId;
 
+    @Min(value = 1)
     private Integer petId;
 
+    @Min(value = 1)
     private Integer orderQuantity;
 
+    @Future
     private Date orderShipDate;
 
+    @Pattern(regexp = "('放置'|'批准'|'交付')")
     private String orderStatus;
 
+    @Pattern(regexp = "(0|1)")
     private Integer orderComplete;
 
     public Integer getOrderId() {
