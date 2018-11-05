@@ -2,12 +2,12 @@ package com.nf.lc.controller;
 
 import com.nf.lc.dao.UserMapper;
 import com.nf.lc.entity.User;
+import com.nf.lc.formbean.FormBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @Controller
 public class UserController {
@@ -16,29 +16,37 @@ public class UserController {
     private UserMapper userMapper;
 
     /**
+     * 获得所有用户信息
+     */
+    @RequestMapping(value = "/user" , method = RequestMethod.GET)
+    @ResponseBody
+    public List<User> selectAll(){
+        return userMapper.selectAll();
+    }
+
+    /**
      * 添加用户的方法
+     *
      * @param user 新用户 post 请求
      */
-    @RequestMapping(value = "/user" ,method = RequestMethod.POST)
-    @ResponseBody
-    public String insertUser(@RequestBody User user){
-        if(userMapper.insert(user)>0){
-            return "{\"msg\":\"ok\"}";
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public String insertUser(User user) {
+        if (userMapper.insert(user) > 0) {
+            return "{\"msg\":\"添加成功！\"}";
+        } else {
+            return "{\"msg\":\"添加失败！\"}";
         }
-        return "{\"msg\":\"no\"}";
     }
 
     /**
      * 批量添加用户  createWithArray
-     *
      */
-    @RequestMapping(value = "/user/createWithArray" , method = RequestMethod.POST)
-    @ResponseBody
-    public String createBatch(@RequestBody List<User> list){
-        for (User user : list) {
+    @RequestMapping(value = "/user/createWithArray", method = RequestMethod.POST)
+    public String createBatch(FormBean<User> list) {
+        for (User user : list.getObjList()) {
             userMapper.insert(user);
         }
-        return "{\"msg\":\"ok\"}";
+        return "{\"msg\":\"添加成功！\"}";
     }
 
 
@@ -49,17 +57,19 @@ public class UserController {
 
     /**
      * 登入验证的方法
-     * @param userName 用户名
-     * @param userPassword 密码
+     *
+     * @param username 用户名
+     * @param password 用户密码
      */
-    @RequestMapping(value = "/user/login" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/user/login", method = RequestMethod.GET , produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String loginUser(@RequestBody String userName,@RequestBody String userPassword){
-        User user = userMapper.selectLogin(userName, userPassword);
-        if(user != null){
-            return "{\"msg\":\"ok\"}";
+    public String loginUser(String username, String password) {
+        int i = userMapper.selectLogin(username, password);
+        if (i > 0) {
+            return "{\"msg\":\"success\"}";
+        } else {
+            return "{\"msg\":\"fail\"}";
         }
-        return "{\"msg\":\"no\"}";
     }
 
     /**
@@ -68,39 +78,55 @@ public class UserController {
 
     /**
      * 通过用户名获取用户
-     * @param  username 用户名 get请求
+     *
+     * @param username 用户名 get请求
      */
-    @RequestMapping(value = "/user/{username}" , method = RequestMethod.GET)
-    public User selectByUserName(@PathVariable("username") String username){
+    @RequestMapping(value = "/user/{username}", method = RequestMethod.GET , produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public User selectByUserName(@PathVariable("username") String username) {
         return userMapper.selectByUserName(username);
     }
 
     /**
      * 更新用户的方法
+     *
      * @param username 更新的用户 put 请求
      */
-    @RequestMapping(value = "/user/{username}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/{username}", method = RequestMethod.PUT ,produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String updateByUserName(@PathVariable("username") String username,User user){
+    public String updateByUserName(@PathVariable("username") String username,User user) {
         user.setUserName(username);
-        if(userMapper.updateByUserName(user) > 0){
-            return "{\"msg\":\"ok\"}";
+        if (userMapper.updateByUserName(user) > 0) {
+            return "{\"msg\":\"success\"}";
+        } else {
+            return "{\"msg\":\"fail\"}";
         }
-        return "{\"msg\":\"no\"}";
     }
 
     /**
      * 通过username删除用户
+     *
      * @param username
      */
-    @RequestMapping(value = "/user/{username}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/user/{username}", method = RequestMethod.DELETE ,produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String deleteUserName(@PathVariable("username") String username){
-        if(userMapper.deleteByUserName(username) >0 ){
-            return "{\"msg\":\"ok\"}";
+    public String deleteUserName(@PathVariable("username") String username) {
+        if (userMapper.deleteByUserName(username) > 0) {
+            return "{\"msg\":\"success\"}";
+        } else {
+            return "{\"msg\":\"fail\"}";
         }
-        return "{\"msg\":\"no\"}";
     }
 
+
+    @RequestMapping(value = "/loginStart" , method = RequestMethod.GET)
+    public String start(){
+        return "login";
+    }
+
+    @RequestMapping(value = "/userStart" , method = RequestMethod.GET)
+    public String userStart(){
+        return "user";
+    }
 
 }

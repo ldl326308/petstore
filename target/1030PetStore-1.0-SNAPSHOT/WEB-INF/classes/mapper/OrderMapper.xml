@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nf.lc.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.nf.lc.entity.Order">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="pet_id" jdbcType="INTEGER" property="petId" />
+    <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity" />
+    <result column="order_ship_date" jdbcType="TIMESTAMP" property="orderShipDate" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="order_complete" jdbcType="INTEGER" property="orderComplete" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nf.lc.entity.Order">
+    insert into order (order_id, pet_id, order_quantity, 
+      order_ship_date, order_status, order_complete
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{petId,jdbcType=INTEGER}, #{orderQuantity,jdbcType=INTEGER}, 
+      #{orderShipDate,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=VARCHAR}, #{orderComplete,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Order">
+    update order
+    set pet_id = #{petId,jdbcType=INTEGER},
+      order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      order_ship_date = #{orderShipDate,jdbcType=TIMESTAMP},
+      order_status = #{orderStatus,jdbcType=VARCHAR},
+      order_complete = #{orderComplete,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select order_id, pet_id, order_quantity, order_ship_date, order_status, order_complete
+    from order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select order_id, pet_id, order_quantity, order_ship_date, order_status, order_complete
+    from order
+  </select>
+</mapper>
