@@ -15,6 +15,6 @@ public interface PetMapper {
     int updateByPrimaryKey(Pet record);
 
     //通过状态查找宠物
-    List<Pet> getPetStatus(String pet_status);
+    List<Pet> getPetStatus(String petStatus);
 
 }

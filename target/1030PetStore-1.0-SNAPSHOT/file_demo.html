@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件操作</title>
+    <style>
+        .div-model{
+            width:500px;
+            float:left;
+            margin:30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="div-model">
+    <input type="file" id="myFile"/>
+    <meter id="jd" max="100" min="0" value="0" style="width:300px;"></meter>
+    <input style="width:50px;" disabled type="text" id="spanJd" value="0" />
+</div>
+
+<div class="div-model">
+    <img id="myImg" style="width:200px;height:200px;" src="" />
+</div>
+
+<div class="div-model">
+    <input type="file" id="myMusic"/>
+    <audio id="myAudio" controls="controls" src="" autoplay="autoplay"></audio>
+</div>
+
+<div class="div-model">
+    <input type="file" id="myMusic2">
+    <audio id="myAudio2" controls="controls" src="" autoplay="autoplay"></audio>
+</div>
+
+<div class="div-model">
+    <canvas id="mycanvas" style="width:100%;height:100%;border:1px solid green;"></canvas>
+</div>
+
+<script src="js/jquery-1.11.3.js" ></script>
+
+<script>
+
+    window.onload = function(){
+        //canvas
+        //1、获取画布对象
+        var canvasObject = mycanvas.getContext("2d");
+        canvasObject.strokeRect(10,10,10,10);
+        canvasObject.strokeStyle = "red";
+        
+        canvasObject.onmousemove = function (event) {
+
+        }
+        
+    }
+
+
+
+    document.getElementById("myMusic2").addEventListener("change", function () {
+        var files = URL.createObjectURL(event.target.files[0]);
+        console.log(files);
+        document.getElementById("myAudio2").src=files;
+        // URL.revokeObjectURL(files);//手动回收
+    });
+
+
+    document.getElementById("myMusic") . onchange = function () {
+        var files = document.getElementById("myMusic").files;
+        var reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        //读取完之后
+        reader.onload = function (event) {
+            document.getElementById("myAudio").setAttribute("src",event.target.result);
+        }
+    }
+
+
+    document.getElementById("myFile") . onchange = function () {
+        var files = document.getElementById("myFile").files;
+        toDataURL(files[0]);
+    }
+
+    function toDataURL(file){
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        document.getElementById("jd").setAttribute("max",file.size);
+        document.getElementById("jd").setAttribute("value","0");
+        console.log("最大："+file.size);
+        reader.onprogress = function(event){
+            document.getElementById("jd").setAttribute("value",event.loaded);
+            document.getElementById("spanJd").value = Math.floor(event.loaded / file.size * 100 )+"%";
+        }
+
+        reader.onload = function (event) {
+            document.getElementById("myImg").setAttribute("src",event.target.result);
+        }
+
+    }
+
+
+</script>
+</body>
+</html>

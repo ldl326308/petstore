@@ -18,9 +18,9 @@ public class UserController {
     /**
      * 获得所有用户信息
      */
-    @RequestMapping(value = "/user" , method = RequestMethod.GET)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     @ResponseBody
-    public List<User> selectAll(){
+    public List<User> selectAll() {
         return userMapper.selectAll();
     }
 
@@ -61,7 +61,7 @@ public class UserController {
      * @param username 用户名
      * @param password 用户密码
      */
-    @RequestMapping(value = "/user/login", method = RequestMethod.GET , produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/user/login", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
     public String loginUser(String username, String password) {
         int i = userMapper.selectLogin(username, password);
@@ -81,7 +81,7 @@ public class UserController {
      *
      * @param username 用户名 get请求
      */
-    @RequestMapping(value = "/user/{username}", method = RequestMethod.GET , produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/user/{username}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
     public User selectByUserName(@PathVariable("username") String username) {
         return userMapper.selectByUserName(username);
@@ -92,9 +92,9 @@ public class UserController {
      *
      * @param username 更新的用户 put 请求
      */
-    @RequestMapping(value = "/user/{username}", method = RequestMethod.PUT ,produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/user/{username}", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String updateByUserName(@PathVariable("username") String username,User user) {
+    public String updateByUserName(@PathVariable("username") String username ,User user) {
         user.setUserName(username);
         if (userMapper.updateByUserName(user) > 0) {
             return "{\"msg\":\"success\"}";
@@ -108,7 +108,7 @@ public class UserController {
      *
      * @param username
      */
-    @RequestMapping(value = "/user/{username}", method = RequestMethod.DELETE ,produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/user/{username}", method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
     @ResponseBody
     public String deleteUserName(@PathVariable("username") String username) {
         if (userMapper.deleteByUserName(username) > 0) {
@@ -119,13 +119,13 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/loginStart" , method = RequestMethod.GET)
-    public String start(){
+    @RequestMapping(value = "/loginStart", method = RequestMethod.GET)
+    public String start() {
         return "login";
     }
 
-    @RequestMapping(value = "/userStart" , method = RequestMethod.GET)
-    public String userStart(){
+    @RequestMapping(value = "/userStart", method = RequestMethod.GET)
+    public String userStart() {
         return "user";
     }
 

@@ -46,25 +46,24 @@ public class PetController {
      *
      * @param pet 修改宠物信息 put 请求
      */
-    @RequestMapping(value = "/pet", method = RequestMethod.PUT)
-    public String updatePet(Pet pet, Model model) {
+    @RequestMapping(value = "/pet", method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String updatePet(Pet pet) {
         if (petMapper.updateByPrimaryKey(pet) > 0) {
-            model.addAttribute("err", "修改成功！");
+            return "{\"msg\":\"更新成功！\"}";
         } else {
-            model.addAttribute("err", "修改失败！");
+            return "{\"msg\":\"更新失败！\"}";
         }
-        return "pet";
     }
 
     /**
      * 按状态查找宠物
      * pet_status 宠物状态 get 请求
      */
-    @RequestMapping(value = "/pet/finByStatus", method = RequestMethod.GET)
-    public String getPetStatus(String pet_status, Model model) {
-        List<Pet> petList = petMapper.getPetStatus(pet_status);
-        model.addAttribute("list", petList);
-        return "pet";
+    @RequestMapping(value = "/pet/finByStatus", method = RequestMethod.GET , produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public List<Pet> getPetStatus(String pet_status) {
+        return petMapper.getPetStatus(pet_status);
     }
 
     /**
@@ -72,12 +71,10 @@ public class PetController {
      *
      * @param pet_id 宠物id get 请求
      */
-    @RequestMapping(value = "/pet/{petId}", method = RequestMethod.GET)
-    public String getByPrimaryKey(@PathVariable("petId") int pet_id, Model model) {
-        Pet pet = petMapper.selectByPrimaryKey(pet_id);
-        model.addAttribute("pet", pet);
-        return "pet";
-
+    @RequestMapping(value = "/pet/{petId}", method = RequestMethod.GET ,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Pet getByPrimaryKey(@PathVariable("petId") int pet_id) {
+        return petMapper.selectByPrimaryKey(pet_id);
     }
 
     /**

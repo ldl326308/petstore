@@ -23,7 +23,7 @@
       #{petPhotoUrls,jdbcType=VARCHAR}, #{tagId,jdbcType=INTEGER}, #{petStatus,jdbcType=VARCHAR}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Pet">
+  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Pet" >
     update pet
     set category_id = #{categoryId,jdbcType=INTEGER},
       pet_name = #{petName,jdbcType=VARCHAR},
@@ -33,16 +33,17 @@
     where pet_id = #{petId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select pet_id, category_id, pet_name, pet_photo_urls, tag_id, pet_status
-    from pet
-    where pet_id = #{petId,jdbcType=INTEGER}
+    select * from pet p inner join tag t on t.tag_id = p.tag_id
+      inner join category c on c.category_id=p.category_id
+    where p.pet_id = #{petId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select * from pet p inner join tag t on t.tag_id = p.tag_id
       inner join category c on c.category_id=p.category_id
   </select>
-    <select id="getPetStatus" resultType="com.nf.lc.entity.Pet">
-       select pet_id, category_id, pet_name, pet_photo_urls, tag_id, pet_status
-       from pet where pet_status = #{pet_status};
+    <select id="getPetStatus" resultMap="BaseResultMap">
+    select * from pet p inner join tag t on t.tag_id = p.tag_id
+      inner join category c on c.category_id = p.category_id
+      where p.pet_status = #{petStatus}
     </select>
 </mapper>

@@ -27,6 +27,7 @@
             <th>用户名</th>
             <th>姓</th>
             <th>名</th>
+            <th>密码</th>
             <th>邮箱</th>
             <th>电话</th>
             <th>状态</th>
@@ -49,6 +50,7 @@
     <input type="hidden" id="userName"/>
     <p>姓：<input type="text" id="userFirstName"/></p>
     <p>名：<input type="text" id="userLastName"/></p>
+    <p>密码：<input type="text" id="userPassword"/></p>
     <p>邮箱：<input type="text" id="userEmail"/></p>
     <p>电话：<input type="text" id="userPhone"/></p>
     <p>状态<input type="text" id="userStatus"/></p>
@@ -61,30 +63,39 @@
         //数据渲染
         start();
 
+        //更新点击事件
+        $("#btnUpdUser").click(function () {
+            var userData = new FormData();
+            userData.append("userName", $("#userName").val());
+            userData.append("userFirstName", $("#userFirstName").val());
+            userData.append("userLastName", $("#userLastName").val());
+            userData.append("userPhone", $("#userPhone").val());
+            userData.append("userStatus", $("#userStatus").val());
+            userData.append("userEmail", $("#userEmail").val());
+            userData.append("userPassword", $("#userPassword").val());
+
+
+            $.ajax({
+                type: "put",
+                url: "/user/" + $("#userName").val(),
+                data: userData,
+                processData:false,
+                contentType:false, //不进行转换操作，原数据
+                success: function (data) {
+                    alert(data.msg);
+                    window.location.href="/userStart";
+                }, error: function (err) {
+                    console.log(err.responseText);
+                }
+            });
+        });
+
+
         //修改点击事件
         $("#userTbody").on("click", ".userUpd", function (index, obj) {
             var updUserId = $(this).attr("updId");
             $("#userName").val(updUserId);
-
-            $("#btnUpdUser").click(function () {
-                $.ajax({
-                    type: "put",
-                    url: "/user/" + updUserId,
-                    data: {
-                        "userFirstName": $("#userFirstName").val(),
-                        "userLastName": $("#userLastName").val(),
-                        "userPhone": $("#userPhone").val(),
-                        "userStatus": $("#userStatus").val(),
-                        "userEmail":$("#userEmail").val()
-                    },
-                    success: function (data) {
-                        alert(data);
-                    }, error: function (err) {
-                        console.log(err.responseText);
-                    }
-                });
-            });
-
+            $("#frmUpdUser").attr("action", "/user/" + updUserId);
             //获得要修改的数据
             $.ajax({
                 type: "get",
@@ -95,6 +106,7 @@
                     $("#userPhone").val(data.userPhone);
                     $("#userStatus").val(data.userStatus);
                     $("#userEmail").val(data.userEmail);
+                    $("#userPassword").val(data.userPassword);
                 },
                 error: function (err) {
                     console.log(err.responseText);
@@ -137,6 +149,7 @@
                     newTr.append($("<td/>").text(obj.userName));
                     newTr.append($("<td/>").text(obj.userFirstName));
                     newTr.append($("<td/>").text(obj.userLastName));
+                    newTr.append($("<td/>").text(obj.userPassword));
                     newTr.append($("<td/>").text(obj.userEmail));
                     newTr.append($("<td/>").text(obj.userPhone));
                     newTr.append($("<td/>").text(obj.userStatus));
